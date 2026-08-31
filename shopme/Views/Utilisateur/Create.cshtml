@@ -1,0 +1,116 @@
+﻿@model shopme.Models.Utilisateur
+
+@{
+    ViewData["Title"] = "Créer un utilisateur";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+                    <h3 class="text-center">Créer un utilisateur</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Create" method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NomUtilisateur"
+                                   class="form-label">
+                                Nom utilisateur
+                            </label>
+
+                            <input asp-for="NomUtilisateur"
+                                   class="form-control"
+                                   placeholder="Entrez le nom" />
+
+                            <span asp-validation-for="NomUtilisateur"
+                                  class="text-danger">
+                            </span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="NumeroUtilisateur"
+                                   class="form-label">
+                                Numéro utilisateur
+                            </label>
+
+                            <input asp-for="NumeroUtilisateur"
+                                   class="form-control"
+                                   type="number"
+                                   placeholder="Entrez le numéro" />
+
+                            <span asp-validation-for="NumeroUtilisateur"
+                                  class="text-danger">
+                            </span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="FonctionUtilisateur"
+                                   class="form-label">
+                                Fonction
+                            </label>
+
+                            <input asp-for="FonctionUtilisateur"
+                                   class="form-control"
+                                   placeholder="Ex : Client" />
+
+                            <span asp-validation-for="FonctionUtilisateur"
+                                  class="text-danger">
+                            </span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="MotDePasseUtilisateur"
+                                   class="form-label">
+                                Mot de passe
+                            </label>
+
+                            <input asp-for="MotDePasseUtilisateur"
+                                   class="form-control"
+                                   type="password"
+                                   placeholder="Entrez le mot de passe" />
+
+                            <span asp-validation-for="MotDePasseUtilisateur"
+                                  class="text-danger">
+                            </span>
+                        </div>
+
+
+                        <div class="d-grid">
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Enregistrer
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
