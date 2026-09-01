@@ -1,0 +1,101 @@
+﻿@model shopme.Models.Utilisateur
+
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+<div class="container mt-5">
+
+    ```
+    <div class="row justify-content-center">
+
+        <div class="col-md-5 col-lg-4">
+
+            <div class="card shadow">
+
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Connexion</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-controller="Utilisateur"
+                          asp-action="Login"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-danger">
+                                @ViewBag.Message
+                            </div>
+                        }
+
+                        <!-- Nom utilisateur -->
+                        <div class="mb-3">
+
+                            <label for="nomUtilisateur"
+                                   class="form-label">
+                                Nom utilisateur
+                            </label>
+
+                            <input type="text"
+                                   id="nomUtilisateur"
+                                   name="nomUtilisateur"
+                                   class="form-control"
+                                   placeholder="Entrez votre nom"
+                                   required />
+
+                        </div>
+
+                        <!-- Mot de passe -->
+                        <div class="mb-3">
+
+                            <label for="motDePasse"
+                                   class="form-label">
+                                Mot de passe
+                            </label>
+
+                            <input type="password"
+                                   id="motDePasse"
+                                   name="motDePasse"
+                                   class="form-control"
+                                   placeholder="Entrez votre mot de passe"
+                                   required />
+
+                        </div>
+
+                        <!-- Bouton -->
+                        <div class="d-grid">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Se connecter
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="card-footer text-center">
+
+                    <span>Vous n'avez pas encore de compte ?</span>
+
+                    <a asp-controller="Utilisateur"
+                       asp-action="Create">
+                        S'inscrire
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    ```
+
+</div>
