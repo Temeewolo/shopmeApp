@@ -2,20 +2,10 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    var nomUtilisateur = Context.Session.GetString("NomUtilisateur");
 }
 
 <div class="text-center">
-    <h1>Bienvenue, @User.Identity?.Name !</h1>
-    <form asp-controller="Utilisateur"
-          asp-action="Logout"
-          method="post">
-
-        @Html.AntiForgeryToken()
-
-        <button type="submit" class="btn btn-danger">
-            Se déconnecter
-        </button>
-
-    </form>
+    <h1 class="display-4">Welcome @nomUtilisateur</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
