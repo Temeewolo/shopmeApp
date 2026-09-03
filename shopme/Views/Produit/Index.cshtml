@@ -1,0 +1,143 @@
+﻿@model IEnumerable<shopme.Models.Produit>
+
+@{
+    ViewData["Title"] = "Produits";
+}
+
+<div class="container mt-5">
+
+    <!-- En-tête -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-bold">Nos produits</h1>
+            <p class="text-muted">
+                Gestion des produits ShopMe
+            </p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + Ajouter un produit
+        </a>
+
+    </div>
+
+
+    <!-- Cartes -->
+    <div class="row g-4">
+
+        @foreach (var produit in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="card h-100 shadow-sm border-0">
+
+                    <div class="card-body">
+
+                        <!-- Nom -->
+                        <h4 class="card-title fw-bold">
+                            @produit.NomProduit
+                        </h4>
+
+                        <!-- Code -->
+                        <p class="text-muted mb-2">
+                            Code : @produit.CodeProduit
+                        </p>
+
+                        <!-- Type -->
+                        <span class="badge bg-secondary mb-3">
+                            @produit.TypeProduit
+                        </span>
+
+                        <hr>
+
+                        <!-- Prix -->
+                        <h3 class="text-primary fw-bold">
+                            @produit.PrixProduit.ToString("N0") FCFA
+                        </h3>
+
+                        <!-- Dates -->
+                        <div class="mt-3">
+
+                            <p class="mb-1">
+                                <strong>Fabrication :</strong>
+                                @produit.DateFabricationProduit.ToString("dd/MM/yyyy")
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Péremption :</strong>
+                                @produit.DatePeremptionProduit.ToString("dd/MM/yyyy")
+                            </p>
+
+                        </div>
+
+                        <!-- Visibilité -->
+                        <div class="mt-3">
+
+                            @if (produit.VisibiliteProduit)
+                            {
+                                <span class="badge bg-success">
+                                    Visible
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    Masqué
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Actions -->
+                    <div class="card-footer bg-white border-0 pb-3">
+
+                        <div class="d-flex gap-2">
+
+                            <a asp-action="Edit"
+                               asp-route-id="@produit.IdProduit"
+                               class="btn btn-warning flex-fill">
+                                Modifier
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@produit.IdProduit"
+                               class="btn btn-danger flex-fill">
+                                Supprimer
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+
+    <!-- Aucun produit -->
+    @if (!Model.Any())
+    {
+        <div class="text-center mt-5">
+
+            <h4>Aucun produit disponible</h4>
+
+            <p class="text-muted">
+                Commencez par ajouter votre premier produit.
+            </p>
+
+            <a asp-action="Create"
+               class="btn btn-primary">
+                Ajouter un produit
+            </a>
+
+        </div>
+    }
+
+</div>

@@ -1,0 +1,181 @@
+﻿@model shopme.Models.Produit
+
+@{
+    ViewData["Title"] = "Modifier le produit";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-warning">
+                    <h3 class="mb-0">Modifier le produit</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Edit" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <!-- ID caché -->
+                        <input type="hidden"
+                               asp-for="IdProduit" />
+
+                        <!-- Code -->
+                        <div class="mb-3">
+
+                            <label asp-for="CodeProduit"
+                                   class="form-label">
+                                Code du produit
+                            </label>
+
+                            <input asp-for="CodeProduit"
+                                   class="form-control" />
+
+                            <span asp-validation-for="CodeProduit"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Nom -->
+                        <div class="mb-3">
+
+                            <label asp-for="NomProduit"
+                                   class="form-label">
+                                Nom du produit
+                            </label>
+
+                            <input asp-for="NomProduit"
+                                   class="form-control" />
+
+                            <span asp-validation-for="NomProduit"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Type -->
+                        <div class="mb-3">
+
+                            <label asp-for="TypeProduit"
+                                   class="form-label">
+                                Type de produit
+                            </label>
+
+                            <input asp-for="TypeProduit"
+                                   class="form-control" />
+
+                            <span asp-validation-for="TypeProduit"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Date fabrication -->
+                        <div class="mb-3">
+
+                            <label asp-for="DateFabricationProduit"
+                                   class="form-label">
+                                Date de fabrication
+                            </label>
+
+                            <input asp-for="DateFabricationProduit"
+                                   type="date"
+                                   class="form-control" />
+
+                        </div>
+
+
+                        <!-- Date péremption -->
+                        <div class="mb-3">
+
+                            <label asp-for="DatePeremptionProduit"
+                                   class="form-label">
+                                Date de péremption
+                            </label>
+
+                            <input asp-for="DatePeremptionProduit"
+                                   type="date"
+                                   class="form-control" />
+
+                        </div>
+
+
+                        <!-- Prix -->
+                        <div class="mb-3">
+
+                            <label asp-for="PrixProduit"
+                                   class="form-label">
+                                Prix
+                            </label>
+
+                            <input asp-for="PrixProduit"
+                                   type="number"
+                                   class="form-control" />
+
+                            <span asp-validation-for="PrixProduit"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Visibilité -->
+                        <div class="form-check mb-4">
+
+                            <input asp-for="VisibiliteProduit"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="VisibiliteProduit"
+                                   class="form-check-label">
+                                Produit visible
+                            </label>
+
+                        </div>
+
+
+                        <!-- Boutons -->
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-success">
+                                Enregistrer les modifications
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+                                Annuler
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+
+}
