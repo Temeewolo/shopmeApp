@@ -109,6 +109,23 @@
                                 Supprimer
                             </a>
 
+                            <form class="form-ajouter-panier">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@produit.IdProduit" />
+
+                                <button type="submit"
+                                        class="btn btn-success w-100 btn-ajouter-panier">
+
+                                    Ajouter au panier
+
+                                </button>
+
+                            </form>
+
                         </div>
 
                     </div>
@@ -141,3 +158,182 @@
     }
 
 </div>
+
+<script>
+
+    // ==========================================
+    // AJOUTER UN PRODUIT AU PANIER
+    // ==========================================
+
+    document.querySelectorAll('.form-ajouter-panier').forEach(form => {
+
+        form.addEventListener('submit', async function (event) {
+
+            // Empêcher la redirection normale
+            event.preventDefault();
+
+            const bouton = form.querySelector(
+                '.btn-ajouter-panier'
+            );
+
+            const id = form.querySelector(
+                'input[name="id"]'
+            ).value;
+
+            const token = form.querySelector(
+                'input[name="__RequestVerificationToken"]'
+            ).value;
+
+
+            bouton.disabled = true;
+            bouton.innerText = "Ajout...";
+
+
+            try {
+
+                const response = await fetch(
+                    '/Panier/Ajouter',
+                    {
+                        method: 'POST',
+
+                        headers: {
+                            'Content-Type':
+                                'application/x-www-form-urlencoded'
+                        },
+
+                        body: new URLSearchParams({
+                            id: id,
+                            __RequestVerificationToken: token
+                        })
+                    }
+                );
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Erreur lors de l'ajout"
+                    );
+                }
+
+
+                const data = await response.json();
+
+
+                if (data.success) {
+
+                    bouton.innerText = "✓ Ajouté";
+
+                    bouton.classList.remove(
+                        'btn-success'
+                    );
+
+                    bouton.classList.add(
+                        'btn-secondary'
+                    );
+
+
+                    // Mise à jour du compteur
+                    const compteur =
+                        document.getElementById(
+                            'compteur-panier'
+                        );
+
+                    if (compteur) {
+
+                        compteur.innerText =
+                            data.nombreArticles;
+
+                    }
+
+
+                    // Remettre le bouton normal
+                    setTimeout(() => {
+
+                        bouton.innerText =
+                            "Ajouter au panier";
+
+                        bouton.classList.remove(
+                            'btn-secondary'
+                        );
+
+                        bouton.classList.add(
+                            'btn-success'
+                        );
+
+                        bouton.disabled = false;
+
+                    }, 1000);
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                bouton.innerText = "Erreur";
+
+                bouton.disabled = false;
+
+            }
+
+        });
+
+    });
+
+
+    // ==========================================
+    // RÉCUPÉRER LE COMPTEUR AU CHARGEMENT
+    // ==========================================
+
+    async function mettreAJourCompteurPanier() {
+
+        try {
+
+            const response = await fetch(
+                '/Panier/Compteur'
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Impossible de récupérer le panier"
+                );
+
+            }
+
+
+            const data = await response.json();
+
+
+            const compteur =
+                document.getElementById(
+                    'compteur-panier'
+                );
+
+
+            if (compteur) {
+
+                compteur.innerText =
+                    data.nombreArticles;
+
+            }
+
+        }
+        catch (error) {
+
+            console.error(
+                "Erreur compteur panier :",
+                error
+            );
+
+        }
+
+    }
+
+
+    // Exécuter au chargement de la page
+    mettreAJourCompteurPanier();
+
+</script>

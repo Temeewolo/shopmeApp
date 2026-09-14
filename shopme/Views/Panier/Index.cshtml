@@ -1,0 +1,235 @@
+﻿@model List<shopme.Models.PanierItem>
+
+@{
+    ViewData["Title"] = "Mon panier";
+
+    int totalPanier = Model.Sum(p => p.Total);
+}
+
+<div class="container mt-4">
+
+    <!-- TITRE -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>
+            🛒 Mon panier
+        </h2>
+
+        @if (Model.Any())
+        {
+            <form asp-action="Vider" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit"
+                        class="btn btn-danger">
+                    Vider le panier
+                </button>
+
+            </form>
+        }
+
+    </div>
+
+
+    <!-- PANIER VIDE -->
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+
+            <h4>Votre panier est vide</h4>
+
+            <p>
+                Ajoutez des produits pour commencer votre commande.
+            </p>
+
+            <a asp-controller="Produit"
+               asp-action="Index"
+               class="btn btn-primary">
+
+                Voir les produits
+
+            </a>
+
+        </div>
+    }
+    else
+    {
+        <!-- CARTES DES PRODUITS -->
+        <div class="row">
+
+            @foreach (var article in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <!-- NOM -->
+                            <h5 class="card-title">
+                                @article.NomProduit
+                            </h5>
+
+
+                            <!-- PRIX UNITAIRE -->
+                            <p class="text-muted">
+
+                                Prix unitaire :
+
+                                <strong>
+                                    @article.PrixUnitaire.ToString("N0") FCFA
+                                </strong>
+
+                            </p>
+
+
+                            <!-- QUANTITÉ -->
+                            <div class="d-flex align-items-center justify-content-center my-3">
+
+                                <!-- BOUTON - -->
+
+                                <form asp-action="Diminuer"
+                                      method="post">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@article.IdProduit" />
+
+                                    <button type="submit"
+                                            class="btn btn-success">
+                                        -
+                                    </button>
+
+                                </form>
+
+
+                                <!-- QUANTITÉ -->
+
+                                <span class="mx-3 fs-5">
+                                    @article.Quantite
+                                </span>
+
+
+                                <!-- BOUTON + -->
+
+                                <form asp-action="Augmenter"
+                                      method="post">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@article.IdProduit" />
+
+                                    <button type="submit"
+                                            class="btn btn-success">
+                                        +
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                            <hr />
+
+
+                            <!-- TOTAL DE LA LIGNE -->
+
+                            <div class="d-flex justify-content-between">
+
+                                <span>
+                                    Total :
+                                </span>
+
+                                <strong class="text-success">
+
+                                    @article.Total.ToString("N0") FCFA
+
+                                </strong>
+
+                            </div>
+
+
+                            <!-- SUPPRIMER -->
+
+                            <form asp-action="Supprimer"
+                                  method="post"
+                                  class="mt-3">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@article.IdProduit" />
+
+                                <button type="submit"
+                                        class="btn btn-outline-danger w-100">
+
+                                    Supprimer
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+
+        <!-- TOTAL GÉNÉRAL -->
+
+        <div class="card shadow mt-4">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <h4>
+                        Total de la commande
+                    </h4>
+
+                    <h3 class="text-success">
+
+                        @totalPanier.ToString("N0") FCFA
+
+                    </h3>
+
+                </div>
+
+
+                <!-- PASSER LA COMMANDE -->
+
+                <div class="text-end mt-3">
+
+                    <form asp-controller="Panier"
+                          asp-action="PasserCommande"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg">
+
+                            Passer la commande
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>

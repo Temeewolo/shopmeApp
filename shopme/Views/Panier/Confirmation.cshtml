@@ -1,0 +1,226 @@
+﻿@model List<shopme.Models.PanierItem>
+
+@{
+    ViewData["Title"] = "Commande confirmée";
+
+    var commande = ViewBag.Commande as shopme.Models.Commande;
+
+    int totalCommande = Model.Sum(p => p.Total);
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-9 col-lg-8">
+
+            <!-- CARTE DE CONFIRMATION -->
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center p-5">
+
+
+                    <!-- ICÔNE -->
+
+                    <div class="mb-4">
+
+                        <div class="rounded-circle
+                            bg-success
+                            text-white
+                            d-inline-flex
+                            align-items-center
+                            justify-content-center"
+                             style="width: 80px; height: 80px;">
+
+                            <span style="font-size: 40px;">
+                                ✓
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TITRE -->
+
+                    <h1 class="text-success mb-3">
+                        Commande confirmée !
+                    </h1>
+
+
+                    <p class="lead text-muted">
+
+                        Votre commande a été enregistrée
+                        avec succès.
+
+                    </p>
+
+
+                    <hr class="my-4" />
+
+
+                    <!-- INFORMATIONS COMMANDE -->
+
+                    <div class="row text-start mb-4">
+
+                        <div class="col-md-6">
+
+                            <p class="mb-1 text-muted">
+                                Numéro de commande
+                            </p>
+
+                            <h5>
+                                @commande.CodeCommande
+                            </h5>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <p class="mb-1 text-muted">
+                                Date de commande
+                            </p>
+
+                            <h5>
+                                @commande.DateCommande.ToString("dd/MM/yyyy HH:mm")
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PRODUITS -->
+
+                    <h4 class="text-start mb-3">
+                        Détails de la commande
+                    </h4>
+
+
+                    @foreach (var produit in Model)
+                    {
+                        <div class="card mb-3">
+
+                            <div class="card-body">
+
+                                <div class="row align-items-center">
+
+
+                                    <!-- NOM -->
+
+                                    <div class="col-md-5 text-start">
+
+                                        <h5 class="mb-1">
+                                            @produit.NomProduit
+                                        </h5>
+
+                                        <small class="text-muted">
+
+                                            @produit.PrixUnitaire.ToString("N0")
+                                            FCFA / unité
+
+                                        </small>
+
+                                    </div>
+
+
+                                    <!-- QUANTITÉ -->
+
+                                    <div class="col-md-3">
+
+                                        <span class="badge bg-secondary">
+
+                                            Quantité :
+                                            @produit.Quantite
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- TOTAL -->
+
+                                    <div class="col-md-4 text-end">
+
+                                        <strong class="text-success">
+
+                                            @produit.Total.ToString("N0")
+                                            FCFA
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+
+                    <!-- TOTAL -->
+
+                    <div class="card bg-light mt-4">
+
+                        <div class="card-body">
+
+                            <div class="d-flex
+                                justify-content-between
+                                align-items-center">
+
+                                <h4 class="mb-0">
+                                    Total
+                                </h4>
+
+                                <h3 class="text-success mb-0">
+
+                                    @totalCommande.ToString("N0")
+                                    FCFA
+
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOUTONS -->
+
+                    <div class="d-flex
+                        justify-content-center
+                        gap-3
+                        mt-4">
+
+                        <a asp-controller="Produit"
+                           asp-action="Index"
+                           class="btn btn-primary">
+
+                            Continuer mes achats
+
+                        </a>
+
+
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+
+                            Accueil
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
