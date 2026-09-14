@@ -49,9 +49,7 @@ namespace shopme.Controllers
         // POST: /Utilisateur/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(
-    string nomUtilisateur,
-    string motDePasse)
+        public async Task<IActionResult> Login(string nomUtilisateur, string motDePasse)
         {
             var utilisateur = await _context.Utilisateurs
                 .FirstOrDefaultAsync(u =>
@@ -60,38 +58,18 @@ namespace shopme.Controllers
 
             if (utilisateur == null)
             {
-                ViewBag.Message = "Nom d'utilisateur ou mot de passe incorrect.";
+                ViewBag.Message =
+                    "Nom d'utilisateur ou mot de passe incorrect.";
+
                 return View();
             }
 
-            var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier,
-            utilisateur.IdUtilisareur.ToString()),
+            HttpContext.Session.SetString(
+                "NomUtilisateur",
+                utilisateur.NomUtilisateur
+            );
 
-        new Claim(ClaimTypes.Name,
-            utilisateur.NomUtilisateur),
-
-        new Claim(ClaimTypes.Role,
-            utilisateur.FonctionUtilisateur)
-    };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims,
-                CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");   
         }
 
         // GET: /Utilisateur/Success
